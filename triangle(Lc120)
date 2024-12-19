@@ -1,26 +1,10 @@
+Tabulation:
+
+
+tabulation:
 class Solution {
 public:
-    // memoization
-    int func(int row , int ind , vector<vector<int>> triangle , vector<vector<int>>  & dp){
-        if(row==0 && ind==0){
-            return triangle[0][0];
-        }
-        if(ind>row || ind<0){
-            return 1e9;
-        }
-        if(dp[row][ind]!=-1){
-            return dp[row][ind];
-        }
-        int mini=INT_MAX;
-        int first_choice=1e9;
-        if(ind>0){
-            first_choice=func(row-1 ,ind-1,triangle , dp)+ triangle[row][ind];
-        }
-        int second_choice=func(row-1, ind ,triangle , dp)+triangle[row][ind];
-        mini=min(first_choice,second_choice);
-        return dp[row][ind]=mini;
-    }
-    // tabulation
+
     int minimumTotal(vector<vector<int>>& triangle) {
         
         int m =triangle.size(); 
@@ -58,3 +42,51 @@ public:
           
     }
 };
+
+
+
+Memoization:
+
+memorization:
+class Solution {
+public:
+
+    int func(int row , int ind , vector<vector<int>> triangle , vector<vector<int>>  & dp){
+        if(row==0 && ind==0){
+            return triangle[0][0];
+        }
+        if(ind>row || ind<0){
+            return 1e9;
+        }
+        if(dp[row][ind]!=-1){
+            return dp[row][ind];
+        }
+        int mini=INT_MAX;
+        int first_choice=1e9;
+        if(ind>0){
+            first_choice=func(row-1 ,ind-1,triangle , dp)+ triangle[row][ind];
+        }
+        int second_choice=func(row-1, ind ,triangle , dp)+triangle[row][ind];
+        mini=min(first_choice,second_choice);
+        return dp[row][ind]=mini;
+    }
+
+    int minimumTotal(vector<vector<int>>& triangle) {
+        
+        int m =triangle.size(); 
+
+        vector<vector<int>> dp(m);
+        for(int i=0 ; i < m ; i++){
+            dp[i]=vector<int>(i+1,-1);
+        }
+        int ans=INT_MAX;
+        for(int ind =0 ; ind<m ; ind++){
+            int val=func(m-1,ind, triangle , dp); 
+            ans=min(val , ans);
+        }
+        return ans;
+          
+    }
+};
+
+
